@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    if owner
+        if detailSent
+            .alert.alert-success.text-center(role="alert") Owner details are sent to your email also.
+        div(class="mx-auto my-3 py-3 px-2", style="width: 70%; max-width:500px")
+            h3(class="rounded-top mb-0 py-1 px-2 bg-light text-dark") Name
+            h4(class="rounded-bottom mt-0 py-1 px-2 bg-dark text-white")= owner.first_name + " " + owner.last_name
+            h3(class="rounded-top mb-0 py-1 px-2 bg-light text-dark") Email Address
+            h4(class="rounded-bottom mt-0 py-1 px-2 bg-dark text-white")
+                a(href="mailto:"+owner.email)= owner.email
+            h3(class="rounded-top mb-0 py-1 px-2 bg-light text-dark") Mobile
+            h4(class="rounded-bottom mt-0 py-1 px-2 bg-dark text-white")
+                a(href="tel:+91"+owner.mobile)= owner.mobile
+    if buyer
+        if detailSent
+            .alert.alert-success.text-center(role="alert") Buyer details are sent to your email also.
+        div(class="mx-auto my-3 py-3 px-2", style="width: 70%; max-width:500px")
+            h3(class="rounded-top mb-0 py-1 px-2 bg-light text-dark") Name
+            h4(class="rounded-bottom mt-0 py-1 px-2 bg-dark text-white")= buyer.first_name + " " + buyer.last_name
+            h3(class="rounded-top mb-0 py-1 px-2 bg-light text-dark") Email Address
+            h4(class="rounded-bottom mt-0 py-1 px-2 bg-dark text-white")
+                a(href="mailto:"+buyer.email)= buyer.email
+            h3(class="rounded-top mb-0 py-1 px-2 bg-light text-dark") Mobile
+            h4(class="rounded-bottom mt-0 py-1 px-2 bg-dark text-white")
+                a(href="tel:+91"+buyer.mobile)= buyer.mobile

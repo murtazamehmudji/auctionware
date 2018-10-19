@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .container.my-5
+    .p-2.text-dark.bg-light.rounded-top.text-center
+      h4= message
+    .text-white.bg-dark.rounded-bottom.text-center
+      h5= error.status
+    pre #{error.stack}

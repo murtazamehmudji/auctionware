@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    div(class="my-2 mx-5")
+        div(class="categoryName bg-dark text-white pl-3 pb-2 mb-4 rounded") New Auction
+        form(action="/product/newauction", method="post", enctype="multipart/form-data")
+            if(errors)
+                div(class="form-group text-danger") Please enter valid credentials
+            div(class="form-group row")
+                label(for="inputName", class="col-sm-2 col-form-label") Product Name
+                div(class="col-sm-10")
+                    input(name="productName", type="text", class="form-control", id="inputName", placeholder="Product Name", required)
+            div(class="form-group row")
+                label(for="inputInitialBid", class="col-sm-2 col-form-label") Initial Bid
+                div(class="col-sm-10")
+                    input(name="initialBid", type="number", class="form-control", id="inputInitialBid", placeholder="Initial Bid", required)
+            div(class="form-group row")
+                label(class="col-sm-2 col-form-label", for="category") Category
+                div(class="col-sm-10")
+                    select(name="category", class="form-control", id="category", required)
+                        each category in [{name: 'Real Estate', url: 'realestate'}, {name: 'Antiques', url: 'antiques'}, {name: 'Paintings', url:'paintings'}, {name: 'Gold Reserves', url: 'goldreserves'}, {name: 'Gem Reserves', url: 'gemreserves'}, {name: 'Aircrafts', url: 'aircrafts'}, {name: 'Cars', url: 'cars'}, {name: 'Other', url: 'other'}]
+                            option(value=category.url)= category.name
+            div(class="form-group row")
+                label(for="inputDecription", class="col-sm-2 col-form-label") Product Description
+                div(class="col-sm-10")
+                    textarea(name="productDescription", rows="5", class="form-control", id="inputDescription", required) Product Description
+            .form-group.row
+                label(for="image", class="col-sm-2 col-form-label") Product Image
+                input.form-control.col-sm-10(type="text", name="image", id="image")
+            div(class="form-group row")
+                div(class="col-sm-10")
+                    button(type="submit" class="btn btn-primary") Start Auction

@@ -1,0 +1,24 @@
+extends layout
+block content
+  div(class="productCategoryContain")
+    div(class="categoryName container-fluid")= category
+    div(class="products row no-gutters")
+      each product in product_list
+        div(class="product col-lg-3 col-md-4 col-sm-6")
+          div(class="productImage")
+            img(class="productImageContent", src=product.image_url, alt=product.name)
+          div(class="productName")= product.name
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + product.initial_bid
+          if product.deal_closed
+            h6(class="card-subtitle mb-2 text-muted ml-4")= "You accepted Bid of Rs " + product.highest_bid
+          else
+            h6(class="card-subtitle mb-2 text-muted ml-4")= "Highest bid Rs " + product.highest_bid
+          div(class="bidButton")
+            if product.deal_closed
+                form(action="/product/"+product._id+"/contactbuyer", method="get", class="my-2")
+                    button(type="submit", class="btn btn-outline-info") Contact Highest Bidder
+            else
+                form(action="/product/"+product._id+"/acceptbid", method="post", class="my-2")
+                    button(type="submit", class="btn btn-outline-success") Accept Bid
+            form(action="/product/"+product._id+"/delete", method="post")
+                button(type="submit", class="btn btn-outline-danger") Stop Auction

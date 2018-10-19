@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  div(class="my-2 py-2 mx-2 px-2 bg-warning text-dark font-weight-bold text-center rounded")
+    p(class="py-0 my-0") Major-Project 7th Semester Batch 2019 CDGI, Indore.
+    p(class="py-0 my-0") All Libraries and Frameworks used are Open-Source and adhere to Policies of their individual Owners.
+  div(class="productCategoryContain")
+    div(class="products row no-gutters")
+      each product in product_list
+        div(class="product col-lg-3 col-md-4 col-sm-6")
+          div(class="productImage")
+            img(class="productImageContent", src=product.image_url, alt=product.name)
+          div(class="productName")= product.name
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + product.initial_bid
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Highest bid Rs " + product.highest_bid
+          div(class="bidButton")
+            a(href=product.url, class="btn btn-primary") Place Bid

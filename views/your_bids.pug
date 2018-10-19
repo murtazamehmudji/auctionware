@@ -1,0 +1,26 @@
+extends layout
+block content
+  div(class="productCategoryContain")
+    div(class="categoryName container-fluid")= category
+    div(class="products row no-gutters")
+      each bid in bid_list
+        div(class="product col-lg-3 col-md-4 col-sm-6")
+          div(class="productImage")
+            img(class="productImageContent", src=bid.product.image_url, alt=bid.product.name)
+          div(class="productName")= bid.product.name
+          if bid.product.deal_closed
+            h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + bid.product.initial_bid
+            if bid.amount === bid.product.highest_bid
+              h6(class="card-subtitle mb-2 text-muted ml-4")= "You won Auction by Bid of Rs " + bid.amount
+            else
+              h6(class="card-subtitle mb-2 text-muted ml-4")= "Auction closed at Highest Bid Rs " + bid.product.highest_bid
+          else
+            h6(class="card-subtitle mb-2 text-muted ml-4")= "Your Bid Rs " + bid.amount
+            h6(class="card-subtitle mb-2 text-muted ml-4")= "Highest bid Rs " + bid.product.highest_bid
+          div(class="bidButton")
+            if bid.product.deal_closed
+              if bid.amount === bid.product.highest_bid
+                form(action="/product/"+bid.product._id+"/contactowner", method="get", class="my-2")
+                    button(type="submit", class="btn btn-outline-info") Contact Auctioneer
+            form(action="/bid/"+bid._id+"/delete", method="post")
+                button(type="submit", class="btn btn-outline-danger") Delete Bid

@@ -1,0 +1,23 @@
+extends layout
+block content
+    div(class="signUpForm my-2 mx-auto px-3")
+        div(class="categoryName bg-dark text-white pl-3 pb-2 rounded") New User
+        form(class="mt-2", method="post", action="/signup" )
+            if(errors)
+                div(class="form-group text-danger") Please Enter Valid Credentials
+            div(class="form-group")
+                label(for="inputFirstName") First Name
+                input(type="text", name="f_name", class="form-control", id="inputFirstName", placeholder="Enter First Name", required)
+            div(class="form-group")
+                label(for="inputLastName") Last Name
+                input(type="text", name="l_name", class="form-control", id="inputLastName", placeholder="Enter Last Name", required)
+            div(class="form-group")
+                label(for="inputEmail") Email address
+                input(type="email", name="email", class="form-control", id="inputEmail", placeholder="Enter email", required)
+            div(class="form-group")
+                label(for="inputMobile") Mobile Number
+                input(type="number", name="mobile", class="form-control", id="inputMobile", placeholder="Enter Mobile Number", required)
+            div(class="form-group")
+                label(for="inputPassword") Password
+                input(type="password", name="password", class="form-control", id="inputPassword", placeholder="Password", required)
+            button(type="submit", class="btn btn-primary") Sign Up
