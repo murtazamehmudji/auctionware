@@ -1,6 +1,3 @@
-#! /usr/bin/env node
-/* © Mufaddal Kamri */
-
 /*
 console.log('This script populates some test products, users and bids to our database. Specified database as argument - e.g.: populatedb mongodb://mufaddalkamri4:asdfzxcv1234@ds253468.mlab.com:53468/online-auction-system');
 
