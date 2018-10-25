@@ -1,4 +1,4 @@
-/* © Mufaddal Kamri */
+
 
 var mongoose = require('mongoose');
 
