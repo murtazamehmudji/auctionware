@@ -90,24 +90,34 @@ exports.product_create_post = [auth.checkSignIn,
             if (err) {
                 return next(err);
             }
-
-            // Was an image uploaded? If so, we'll use its public URL
-            // in cloud storage.
-            var productDetail = {
-                name: req.body.productName,
-                initial_bid: req.body.initialBid,
-                category: req.body.category,
-                detail: req.body.productDescription,
-                image_url: req.body.image,
-                owner: user
+            var imagedetail = {
+                data: req.body.image,
+                contentType: 'image/jpg'
             }
-            var product = new Product(productDetail);
-            product.save(function (err) {
+            var image = new Image(imagedetail);
+            image.save(function (err) {
                 if (err) {
-                    return next(err);
+                    next(err);
+                } else {
+                    // Was an image uploaded? If so, we'll use its public URL
+                    // in cloud storage.
+                    var productDetail = {
+                        name: req.body.productName,
+                        initial_bid: req.body.initialBid,
+                        category: req.body.category,
+                        detail: req.body.productDescription,
+                        images: image._id,
+                        owner: user
+                    }
+                    var product = new Product(productDetail);
+                    product.save(function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        var url = '/product/' + product._id;
+                        res.redirect(url);
+                    });
                 }
-                var url = '/product/' + product._id;
-                res.redirect(url);
             });
         });
     }];

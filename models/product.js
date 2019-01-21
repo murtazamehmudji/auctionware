@@ -9,7 +9,7 @@ var ProductSchema = new Schema(
         initial_bid: {type: Number, min: 0, required: true},
         highest_bid: {type: Number, min: 0, default: 0},
         deal_closed: {type: Boolean, default: false},
-        image_url: {type: String, required: true},
+        images: {type: Schema.Types.ObjectId, ref: 'Image'},
         detail: {type: String, required: true},
         owner: {type: Schema.ObjectId, ref: 'User', required: true},
         reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}]

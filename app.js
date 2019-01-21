@@ -12,13 +12,13 @@ var index = require('./routes/index');
 var user = require('./routes/user');
 var bid = require('./routes/bid');
 var product = require('./routes/product');
-var imageRouter = require('./routes/image');
+var image = require('./routes/image');
 
 var app = express();
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/online-auction-system';
+var mongoDB = process.env.MONGODB_URI || 'mongodb://murtaza:mm8106@ds057862.mlab.com:57862/auctionware';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -42,7 +42,7 @@ app.use(compression());
 app.use('/product', product);
 app.use('/user', user);
 app.use('/bid', bid);
-app.use('/image', imageRouter);
+app.use('/image', image);
 app.use('/', index);
 
 // catch 404 or forward karo error handler pe
