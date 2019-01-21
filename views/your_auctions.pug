@@ -6,7 +6,7 @@ block content
       each product in product_list
         div(class="product col-lg-3 col-md-4 col-sm-6")
           div(class="productImage")
-            img(class="productImageContent", src="/images/"+product.images, alt=product.name)
+            img(class="w-100 p-3", src="/images/"+product.images, alt=product.name)
           div(class="productName")= product.name
           h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + product.initial_bid
           if product.deal_closed
