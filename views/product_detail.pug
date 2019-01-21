@@ -4,7 +4,7 @@ block content
         div(class="products row no-gutters")
             div(class="product col-lg-3 col-md-4 col-sm-6")
                 div(class="productImage")
-                    img(class="productImageContent", src=product.image_url, alt=product.name)
+                    img(class="productImageContent", src="/image/"+product.images, alt=product.name)
                 div(class="bidButton")
                     form(action="/product/"+product._id+"/newbid", method="post")
                         if(errors)
@@ -21,4 +21,21 @@ block content
                 h5(class="my-0 pl-3 pb-1 pt-3 text-dark")= 'Initial Bid Rs '+ product.initial_bid
                 h5(class="my-0 pl-3 pb-1 pt-3 text-dark")= 'Highest Bid Rs '+ product.highest_bid
                 h5(class="mt-3 mb-1 pl-3 text-dark font-weight-bold") Auction Details
-                p(class="px-3 py-1 text-dark")= product.detail
+                p(class="px-3 py-1 text-dark")= product.detail 
+                h5(class="mt-3 mb-1 pl-3 text-dark font-weight-bold") Queries
+                .container
+                    for review in product.reviews
+                        .alert.alert-success= review.user.first_name + " " + review.user.last_name + ": " + review.query
+                if(user)
+                    hr
+                    .container
+                        h4 Have any questions???
+                        form(action="/product/"+product._id+"/review", method="post")
+                            .form-group
+                                label Your Query
+                                textarea.form-control#query(name="query")
+                            button.btn.btn-primary(type="submit") Submit Query
+                else
+                    p.text-center
+                        a(href="/") Log In
+                        |  to submit a query

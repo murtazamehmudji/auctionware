@@ -6,8 +6,9 @@ block content
       each bid in bid_list
         div(class="product col-lg-3 col-md-4 col-sm-6")
           div(class="productImage")
-            img(class="productImageContent", src=bid.product.image_url, alt=bid.product.name)
-          div(class="productName")= bid.product.name
+            img(class="productImageContent", src="/image/" + bid.product.images, alt=bid.product.name)
+          h4.card-subtitle.ml-4.mb-3
+            a(href="/product/"+bid.product._id)= bid.product.name
           if bid.product.deal_closed
             h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + bid.product.initial_bid
             if bid.amount === bid.product.highest_bid

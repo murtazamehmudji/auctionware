@@ -1,7 +1,11 @@
 var Product = require('../models/product');
 var Bid = require('../models/bid');
+var Image = require('../models/image');
 var User = require('../models/user');
 var async = require('async');
+var multer  = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage }).single('image');
 var auth = require('./authorizationPermissions');
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -9,7 +13,7 @@ const bodyParser = require('body-parser');
 
 //Display Root Home Page on GET 
 exports.index = function (req, res, next) {
-    Product.find({ deal_closed: false }, 'name category initial_bid highest_bid image_url')
+    Product.find({ deal_closed: false })
         .limit(12)
         .exec(function (err, list_products) {
             if (err) {
@@ -25,7 +29,14 @@ exports.index = function (req, res, next) {
 
 // Display detail page for a specific Product on GET.
 exports.product_detail = function (req, res, next) {
-    Product.findById(req.params.id).exec(function (err, product) {
+    Product.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'user',
+            model: 'User',
+            select: 'first_name last_name'
+        }
+    }).exec(function (err, product) {
         if (err) {
             return next(err);
         }
@@ -64,61 +75,45 @@ exports.product_create_get = [
 
 // Handle Product create on POST.
 exports.product_create_post = [auth.checkSignIn,
-
-    //validate if the fields are not empty and are required
-    body('productName').exists().isLength({ min: 1 }).trim(),
-    body('initialBid').exists().isDecimal({ force_decimal: false, decimal_digits: '1,2', locale: 'en-US' }).trim(),
-    body('category').exists().isIn(['realestate', 'antiques', 'paintings', 'goldreserves', 'gemreserves', 'aircrafts', 'cars', 'other']),
-    body('productDescription').exists(),
-    body('image').exists(),
-
-    //Sanitize (trim and escape)
-    body('productName').trim().escape(),
-    body('initialBid').trim().escape(),
-    body('category').trim().escape(),
-    body('productDescription').trim().escape(),
-
     function (req, res, next) {
-        // Extract the validation errors from a request.
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.render('new_product', { errors: errors });
-            return;
-        }
-
         User.findById(req.session.user._id).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
-            var imagedetail = {
-                data: req.body.image,
-                contentType: 'image/jpg'
-            }
-            var image = new Image(imagedetail);
-            image.save(function (err) {
+            upload(req, res, function (err) {
                 if (err) {
-                    next(err);
-                } else {
-                    // Was an image uploaded? If so, we'll use its public URL
-                    // in cloud storage.
-                    var productDetail = {
-                        name: req.body.productName,
-                        initial_bid: req.body.initialBid,
-                        category: req.body.category,
-                        detail: req.body.productDescription,
-                        images: image._id,
-                        owner: user
-                    }
-                    var product = new Product(productDetail);
-                    product.save(function (err) {
-                        if (err) {
-                            return next(err);
-                        }
-                        var url = '/product/' + product._id;
-                        res.redirect(url);
-                    });
+                  // An unknown error occurred when uploading.
+                  next(err);
                 }
-            });
+                var imagedetail = {
+                    data: req.file.buffer,
+                    contentType: 'image/jpg'
+                }
+                var image = new Image(imagedetail);
+                image.save(function (err) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        var productDetail = {
+                            name: req.body.productName,
+                            initial_bid: req.body.initialBid,
+                            category: req.body.category,
+                            detail: req.body.productDescription,
+                            images: image._id,
+                            owner: user
+                        }
+                        var product = new Product(productDetail);
+                        product.save(function (err) {
+                            if (err) {
+                                return next(err);
+                            }
+                            var url = '/product/' + product._id;
+                            res.redirect(url);
+                        });
+                    }
+                });
+              })
+            
         });
     }];
 
@@ -174,7 +169,7 @@ exports.product_delete_post = [auth.checkSignIn, function (req, res, next) {
 exports.user_products = [
     auth.checkSignIn,
     function (req, res, next) {
-        Product.find({ owner: req.session.user._id }, 'name initial_bid highest_bid image_url deal_closed')
+        Product.find({ owner: req.session.user._id })
             .exec(function (err, list_products) {
                 if (err) {
                     return next(err);

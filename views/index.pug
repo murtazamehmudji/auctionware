@@ -8,8 +8,9 @@ block content
       each product in product_list
         div(class="product col-lg-3 col-md-4 col-sm-6")
           div(class="productImage")
-            img(class="productImageContent", src=product.image_url, alt=product.name)
-          div(class="productName")= product.name
+            img(class="productImageContent", src="/image/"+product.images, alt=product.name)
+          h4.card-subtitle.ml-4.mb-3
+            a(href="/product/"+product._id)= product.name
           h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + product.initial_bid
           h6(class="card-subtitle mb-2 text-muted ml-4")= "Highest bid Rs " + product.highest_bid
           div(class="bidButton")

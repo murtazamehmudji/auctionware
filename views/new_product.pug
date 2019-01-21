@@ -23,10 +23,10 @@ block content
             div(class="form-group row")
                 label(for="inputDecription", class="col-sm-2 col-form-label") Product Description
                 div(class="col-sm-10")
-                    textarea(name="productDescription", rows="5", class="form-control", id="inputDescription", required) Product Description
+                    textarea(name="productDescription", rows="5", class="form-control", id="inputDescription", placeholder="Product Description", required)
             .form-group.row
                 label(for="image", class="col-sm-2 col-form-label") Product Image
-                input.form-control.col-sm-10(type="text", name="image", id="image")
+                input.form-control.col-sm-10(type="file", name="image", id="image")
             div(class="form-group row")
                 div(class="col-sm-10")
                     button(type="submit" class="btn btn-primary") Start Auction

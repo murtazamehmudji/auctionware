@@ -2,8 +2,9 @@ var passport = require('passport');
 var Review = require('../models/review');
 var User = require('../models/user');
 var Product = require('../models/product');
+var auth = require('./authorizationPermissions');
 
-exports.post_review = function (req, res, next) {
+exports.post_review = [auth.checkSignIn , function (req, res, next) {
     //check if the user has already reviewed
     Product.findOne({ _id: req.params.id }).populate({
         path: 'reviews',
@@ -12,31 +13,27 @@ exports.post_review = function (req, res, next) {
             model: 'User'
         }
     }).exec(function (err, product) {
-            var flag = true;
-            if (err) {
-                next(err);
-            } else {
-                if (flag) {
-                    var review = new Review({
-                        user: req.user._id,
-                        rating: req.body.review_rating,
-                        review_text: req.body.review_text,
-                    });
+        if (err) {
+            next(err);
+        } else {
+            var review = new Review({
+                user: req.session.user._id,
+                query: req.body.query,
+            });
 
-                    review.save(function (err) {
+            review.save(function (err) {
+                if (err) {
+                    next(err);
+                } else {
+                    Product.findOneAndUpdate({ _id: product._id }, { $push: { 'reviews': review._id } }, { new: true }, function (err) {
                         if (err) {
                             next(err);
                         } else {
-                            Product.findOneAndUpdate({ _id: product._id }, { $push: { 'reviews': review._id } }, { new: true }, function (err) {
-                                if (err) {
-                                    next(err);
-                                } else {
-                                    res.render("product_detail", { data: product, user: req.session.user });
-                                }
-                            })
+                            res.redirect('/product/'+product._id);                   
                         }
-                    });
+                    })
                 }
-            }
-        })
-}
+            });
+        }
+    })
+}]

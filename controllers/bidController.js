@@ -165,7 +165,7 @@ exports.product_accept_bid = [
 exports.user_bids = [
     auth.checkSignIn,
     function (req, res, next) {
-        Bid.find({ user: req.session.user._id }, 'amount product user')
+        Bid.find({ user: req.session.user._id })
             .populate('product')
             .exec(function (err, list_bids) {
                 if (err) {
