@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 44ed473bf71ace3b0ba937cb485897f17c7719a5
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
