@@ -11,7 +11,9 @@ var ProductSchema = new Schema(
         deal_closed: {type: Boolean, default: false},
         image_url: {type: String, required: true},
         detail: {type: String, required: true},
-        owner: {type: Schema.ObjectId, ref: 'User', required: true}
+        owner: {type: Schema.ObjectId, ref: 'User', required: true},
+        reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}]
+
     }
 );
 

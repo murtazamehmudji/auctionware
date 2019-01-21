@@ -12,6 +12,7 @@ var index = require('./routes/index');
 var user = require('./routes/user');
 var bid = require('./routes/bid');
 var product = require('./routes/product');
+var imageRouter = require('./routes/image');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use(compression());
 app.use('/product', product);
 app.use('/user', user);
 app.use('/bid', bid);
+app.use('/image', imageRouter);
 app.use('/', index);
 
 // catch 404 or forward karo error handler pe

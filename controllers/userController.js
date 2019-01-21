@@ -53,7 +53,7 @@ exports.user_create_post = [
 
                         user.save(function (err) {
                             if (err) { return next(err); }
-                            req.session.user = user;;
+                            req.session.user = user;
                             res.redirect('/');
                         });
                     }
@@ -123,7 +123,7 @@ exports.product_owner_detail = [
             if (err) { return next(err); }
             User.findById(product.owner._id).exec(function (err, owner) {
                 if (err) { return next(err); }
-                res.render('owner_buyer', { detailSent: true, owner: owner, user: req.session.user });                
+                res.render('owner_buyer', { detailSent: true, owner: owner, user: req.session.user });
                 // var detailSent = false;
                 // var mailContent = "<!DOCTYPE html><html lang=\"en\"><head><title>Online Auction System</title></head><body><h1>Product Details on which you bid</h1><h2>Product Name: "+product.name+"</h2><img style=\"height:200px;\" src=\""+product.image_url+"\"><h2>Initial Bid: "+product.initial_bid+"</h2><h2>Highest Bid: "+product.highest_bid+"</h2><h1>Product's Owner's Details</h1><h2>Name: " + owner.first_name + " " + owner.last_name + "</h2><h2>Mobile: " + owner.mobile + "</h2><h2>Email: <a href=\"mailto:" + owner.email + "\">" + owner.email + "</a></h2></body></html>"                
                 // const sgReq = Sendgrid.emptyRequest({
@@ -164,7 +164,7 @@ exports.product_highBid_detail = [
             if (err) { return next(err); }
             Bid.find({ product: product }).populate('user').sort({ amount: -1 }).exec(function (err, bids) {
                 if (err) { return next(err); }
-                res.render('owner_buyer', { detailSent: true, buyer: bids[0].user, user: req.session.user });                
+                res.render('owner_buyer', { detailSent: true, buyer: bids[0].user, user: req.session.user });
                 // var detailSent = false;
                 // var mailContent = "<!DOCTYPE html><html lang=\"en\"><head><title>Online Auction System</title></head><body><h1>Your Product Details</h1><h2>Product Name: "+product.name+"</h2><img style=\"height:200px;\" src=\""+product.image_url+"\"><h2>Initial Bid: "+product.initial_bid+"</h2><h2>Highest Bid: "+product.highest_bid+"</h2><h1>Your Product's Highest Bidder Details</h1><h2>Name: " + bids[0].user.first_name + " " + bids[0].user.last_name + "</h2><h2>Mobile: " + bids[0].user.mobile + "</h2><h2>Email: <a href=\"mailto:" + bids[0].user.email + "\">" + bids[0].user.email + "</a></h2></body></html>"
                 // const sg2Req = Sendgrid.emptyRequest({
@@ -182,7 +182,7 @@ exports.product_highBid_detail = [
                 //         }]
                 //     }
                 // });
-                
+
                 // Sendgrid.API(sg2Req, (err) => {
                 //     if (err) {
                 //         next(err);

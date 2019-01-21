@@ -4,6 +4,7 @@ var router = express.Router();
 var product_controller = require('../controllers/productController');
 var bid_controller = require('../controllers/bidController');
 var user_controller = require('../controllers/userController');
+var review_controller = require('../controllers/reviewController');
 
 //Display auctions category wise on GET
 router.get('/category/:id/', product_controller.product_list_categoryWise);
@@ -31,5 +32,7 @@ router.get('/:id/contactbuyer', user_controller.product_highBid_detail);
 
 //AJAX response for contact buyer on GET
 router.get('/:id/contactowner', user_controller.product_owner_detail);
+
+router.post('/:id/review', review_controller.post_review);
 
 module.exports = router;
