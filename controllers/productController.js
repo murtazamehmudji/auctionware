@@ -56,7 +56,7 @@ exports.product_list_categoryWise = function (req, res, next) {
         }
     }
     if (found) {
-        Product.find({ deal_closed: false, category: req.params.id }, 'name category initial_bid highest_bid image_url url')
+        Product.find({ deal_closed: false, category: req.params.id }, 'name category initial_bid highest_bid images url')
             .exec(function (err, list_products) {
                 if (err) {
                     return next(err);
