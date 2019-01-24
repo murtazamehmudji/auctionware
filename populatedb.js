@@ -1,30 +1,24 @@
-/*
 console.log('This script populates some test products, users and bids to our database. Specified database as argument - e.g.: populatedb mongodb://mufaddalkamri4:asdfzxcv1234@ds253468.mlab.com:53468/online-auction-system');
 
-// Get arguments passed on command line
-var userArgs = process.argv.slice(2);
-if (!userArgs[0].startsWith('mongodb://')) {
-  console.log('ERROR: You need to specify a valid mongodb URL as the first argument');
-  return
-}
-*/
-
-var async = require('async')
-var Product = require('./models/product')
-var User = require('./models/user')
-var Bid = require('./models/bid')
+var async = require('async');
+var fs = require('fs');
+var Product = require('./models/product');
+var User = require('./models/user');
+var Image = require('./models/image');
+var Bid = require('./models/bid');
 
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/online-auction-system';
+var mongoDB = 'mongodb://murtaza:mm8106@ds057862.mlab.com:57862/auctionware';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var users = []
-var products = []
-var bids = []
+var users = [];
+var images = [];
+var products = [];
+var bids = [];
 
 function userCreate(first_name, last_name, email, mobile, password, cb) {
   var userdetail = {
@@ -48,12 +42,29 @@ function userCreate(first_name, last_name, email, mobile, password, cb) {
   });
 }
 
-function productCreate(name, initial_bid, highest_bid, image_url, owner, category, detail, cb) {
+function imageCreate(image_path, cb) {
+    var imagedetail = {
+        data: fs.readFileSync(image_path),
+        contentType: 'image/jpg'
+    }
+    var image = new Image(imagedetail);
+    image.save(function (err) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        console.log('New Image: ' + image_path);
+        images.push(image);
+        cb(null, image);
+    });
+}
+
+function productCreate(name, initial_bid, highest_bid, image, owner, category, detail, cb) {
   var productdetail = {
     name: name,
     initial_bid: initial_bid,
     highest_bid: highest_bid,
-    image_url: image_url,
+    images: image,
     owner: owner,
     detail: detail
   }
@@ -96,46 +107,155 @@ function bidCreate(amount, product, user, cb) {
 function createUsers(cb) {
   async.series([
     function (callback) {
-      userCreate('Murtaza', 'Mehmudji', 'murtaza@gmail.com', 8109861206, 'abcd@1324', callback);
+      userCreate('Murtaza', 'Mehmudji', 'murtaza@gmail.com', 8109861206, 'abcd1234', callback);
     },
     function (callback) {
-      userCreate('Shiv', 'Pratap', 'shiv@gmail.com', 9926907454, 'abcd@1324', callback);
+      userCreate('Shiv', 'Pratap', 'shiv@gmail.com', 9926907454, 'abcd1234', callback);
     },
     function (callback) {
-      userCreate('Rajnish', 'Pratap', 'rajnish@gmail.com', 8359808247, 'abcd@1324', callback);
+      userCreate('Rajnish', 'Pratap', 'rajnish@gmail.com', 8359808247, 'abcd1234', callback);
     },
     function (callback) {
-      userCreate('Nilesh', 'Prajapat', 'nilesh@gmail.com', 8982116764, 'abcd@1324', callback);
+      userCreate('Nilesh', 'Prajapat', 'nilesh@gmail.com', 8982116764, 'abcd1234', callback);
     },
     function (callback) {
-      userCreate('Chandra', 'Pratap', 'chandra@gmail.com', 9644069108, 'abcd@1324', callback);
+      userCreate('Rajnish', 'Pratap', 'rajnish@gmail.com', 8359808247, 'abcd1234', callback);
+    },
+    function (callback) {
+      userCreate('Sakshi', 'Jain', 'sakshi@gmail.com', 7000959354, 'abcd1234', callback);
+    },
+    function (callback) {
+      userCreate('Chandra', 'Pratap', 'chandra@gmail.com', 9644069108, 'abcd1234', callback);
+    },
+    function (callback) {
+      userCreate('Rasika', 'Joshi', 'rasika@gmail.com', 9827853743, 'abcd1234', callback);
+    },
+    function (callback) {
+      userCreate('Ruchita', 'Kapse', 'ruchita@gmail.com', 7987666557, 'abcd1234', callback);
     }
   ],
     // optional callback
     cb);
 }
 
+function createImages(cb) {
+    async.series([
+        function (callback) {
+            imageCreate('images/aircraft1.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/aircraft2.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/aircraft3.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/car1.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/car2.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/car3.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/car4.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/house1.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/house2.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/house3.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/house4.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/jewelry1.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/jewelry2.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/jewelry3.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/painting1.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/painting2.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/painting3.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/painting4.jpg', callback);
+        },
+        function (callback) {
+            imageCreate('images/car3.jpg', callback);
+        },
+    ], cb);
+}
 
 function createProducts(cb) {
   async.series([
     function (callback) {
-      productCreate('Lil Villas Type 3 | Light Finish | Sharjah', 69000000, 71000000, 'https://cdn.pixabay.com/photo/2013/10/09/02/27/boat-house-192990_960_720.jpg', users[0], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Aircraft 1', 60000000, 60050000, images[0], users[6], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
     },
     function (callback) {
-      productCreate('Independent 4BR Villa | Nakheel Villas | Qatar', 56600000, 58000000, 'https://cdn.pixabay.com/photo/2013/10/09/02/27/boat-house-192990_960_720.jpg', users[1], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.', callback);
+      productCreate('Aircraft 2', 70000000, 70005000, images[1], users[7], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
     },
     function (callback) {
-      productCreate('Panthére en Marche by MAURICE PROST (1894-1967)', 1802628, 2000000, 'https://cdn.pixabay.com/photo/2018/02/24/20/39/clock-3179167_960_720.jpg', users[2], 'antiques', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.', callback);
+      productCreate('Aircraft 3', 150000000, 150005000, images[2], users[8], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
     },
     function (callback) {
-      productCreate('French Bronze Statue, Pax et Labor, 18th Century', 336512, 500000, 'https://cdn.pixabay.com/photo/2018/02/24/20/39/clock-3179167_960_720.jpg', users[3], 'antiques', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.', callback);
+      productCreate('Car 1', 600000, 605000, images[3], users[0], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
     },
     function (callback) {
-      productCreate('H. Landeman late 19th century German OIL PAINTING', 68900, 90000, 'https://cdn.pixabay.com/photo/2018/09/28/21/10/st-petersburg-3710243_960_720.jpg', users[4], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.', callback);
+      productCreate('Car 2', 700000, 705000, images[4], users[1], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
     },
     function (callback) {
-      productCreate('Roger Bradbury 19th Century Italian Portrait Travelling Musician', 75600, 100000, 'https://cdn.pixabay.com/photo/2018/09/28/21/10/st-petersburg-3710243_960_720.jpg', users[0], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.', callback);
-    }
+      productCreate('Car 3', 1000000, 1050000, images[5], users[2], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Car 4', 1100000, 1150000, images[6], users[3], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('House 1', 2000000, 2050000, images[7], users[4], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('House 2', 3000000, 3007000, images[8], users[5], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('House 3', 1500000, 1508000, images[9], users[6], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('House 4', 1000000, 1006000, images[10], users[7], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Jewelry 1', 1250000, 1350000, images[11], users[8], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Jewelry 2', 2000000, 2010000, images[12], users[0], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Jewelry 3', 3000000, 3020000, images[13], users[1], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Painting 1', 150000, 156000, images[14], users[2], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Painting 2', 200000, 200500, images[15], users[3], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Painting 3', 400000, 400900, images[16], users[4], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
+    function (callback) {
+      productCreate('Painting 4', 350000, 353000, images[17], users[5], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+    },
   ],
     // optional callback
     cb);
@@ -145,43 +265,58 @@ function createProducts(cb) {
 function createBids(cb) {
   async.series([
     function (callback) {
-      bidCreate(70000000, products[0], users[1], callback);
+      bidCreate(60050000, products[0], users[0], callback);
     },
     function (callback) {
-      bidCreate(71000000, products[0], users[2], callback);
+      bidCreate(70000000, products[1], users[1], callback);
     },
     function (callback) {
-      bidCreate(57000000, products[1], users[0], callback);
+      bidCreate(150005000, products[2], users[2], callback);
     },
     function (callback) {
-      bidCreate(57500000, products[1], users[2], callback);
+      bidCreate(605000, products[3], users[3], callback);
     },
     function (callback) {
-      bidCreate(58000000, products[1], users[3], callback);
+      bidCreate(705000, products[4], users[4], callback);
     },
     function (callback) {
-      bidCreate(1902628, products[2], users[0], callback);
+      bidCreate(1050000, products[5], users[5], callback);
     },
     function (callback) {
-      bidCreate(2000000, products[2], users[1], callback);
+      bidCreate(1150000, products[6], users[6], callback);
     },
     function (callback) {
-      bidCreate(400000, products[3], users[0], callback);
+      bidCreate(2050000, products[7], users[7], callback);
     },
     function (callback) {
-      bidCreate(500000, products[3], users[4], callback);
+      bidCreate(3007000, products[8], users[8], callback);
     },
     function (callback) {
-      bidCreate(80000, products[4], users[1], callback);
+      bidCreate(1508000, products[9], users[0], callback);
     },
     function (callback) {
-      bidCreate(90000, products[4], users[3], callback);
+      bidCreate(1006000, products[10], users[1], callback);
     },
     function (callback) {
-      bidCreate(80000, products[5], users[1], callback);
+      bidCreate(1350000, products[11], users[2], callback);
     },
     function (callback) {
-      bidCreate(100000, products[5], users[4], callback);
+      bidCreate(2010000, products[12], users[3], callback);
+    },
+    function (callback) {
+      bidCreate(3020000, products[13], users[4], callback);
+    },
+    function (callback) {
+      bidCreate(156000, products[14], users[5], callback);
+    },
+    function (callback) {
+      bidCreate(200500, products[15], users[6], callback);
+    },
+    function (callback) {
+      bidCreate(400900, products[16], users[7], callback);
+    },
+    function (callback) {
+      bidCreate(353000, products[17], users[8], callback);
     }
   ],
     // Optional callback
@@ -192,6 +327,7 @@ function createBids(cb) {
 
 async.series([
   createUsers,
+  createImages,
   createProducts,
   createBids
 ],
@@ -201,8 +337,7 @@ async.series([
       console.log('FINAL ERR: ' + err);
     }
     else {
-      console.log('Bids: ' + bids);
-
+      console.log('Success Populating (results dumped from logging)');
     }
     // All done, disconnect from database
     mongoose.connection.close();
