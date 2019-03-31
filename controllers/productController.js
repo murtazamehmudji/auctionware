@@ -14,7 +14,6 @@ const bodyParser = require('body-parser');
 //Display Root Home Page on GET 
 exports.index = function (req, res, next) {
     Product.find({ deal_closed: false })
-        .limit(12)
         .exec(function (err, list_products) {
             if (err) {
                 return next(err);
@@ -100,7 +99,8 @@ exports.product_create_post = [auth.checkSignIn,
                             category: req.body.category,
                             detail: req.body.productDescription,
                             images: image._id,
-                            owner: user
+                            owner: user,
+                            end_date: req.body.end_date
                         }
                         var product = new Product(productDetail);
                         product.save(function (err) {

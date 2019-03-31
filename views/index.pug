@@ -11,7 +11,9 @@ block content
             img(class="w-100 p-3", src="/image/"+product.images, alt=product.name)
           h4.card-subtitle.ml-4.mb-3
             a(href="/product/"+product._id)= product.name
-          h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs " + product.initial_bid
-          h6(class="card-subtitle mb-2 text-muted ml-4")= "Highest bid Rs " + product.highest_bid
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Initial Bid Rs: " + product.initial_bid
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Highest bid Rs: " + product.highest_bid
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Started On: " + product.start_date.toDateString()
+          h6(class="card-subtitle mb-2 text-muted ml-4")= "Ends On: " + product.end_date.toDateString()
           div(class="bidButton")
             a(href=product.url, class="btn btn-primary") Place Bid

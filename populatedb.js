@@ -59,14 +59,16 @@ function imageCreate(image_path, cb) {
     });
 }
 
-function productCreate(name, initial_bid, highest_bid, image, owner, category, detail, cb) {
+function productCreate(name, initial_bid, highest_bid, image, owner, category, detail, start_date, end_date, cb) {
   var productdetail = {
     name: name,
     initial_bid: initial_bid,
     highest_bid: highest_bid,
     images: image,
     owner: owner,
-    detail: detail
+    detail: detail,
+    start_date: start_date,
+    end_date: end_date
   }
   if (category != false) productdetail.category = category;
 
@@ -81,7 +83,6 @@ function productCreate(name, initial_bid, highest_bid, image, owner, category, d
     cb(null, product)
   });
 }
-
 
 function bidCreate(amount, product, user, cb) {
   var biddetail = {
@@ -203,58 +204,58 @@ function createImages(cb) {
 function createProducts(cb) {
   async.series([
     function (callback) {
-      productCreate('Aircraft 1', 60000000, 60050000, images[0], users[6], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Aircraft 1', 60000000, 60050000, images[0], users[6], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Aircraft 2', 70000000, 70005000, images[1], users[7], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Aircraft 2', 70000000, 70005000, images[1], users[7], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Aircraft 3', 150000000, 150005000, images[2], users[8], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Aircraft 3', 150000000, 150005000, images[2], users[8], 'aircrafts', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Car 1', 600000, 605000, images[3], users[0], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Car 1', 600000, 605000, images[3], users[0], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Car 2', 700000, 705000, images[4], users[1], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Car 2', 700000, 705000, images[4], users[1], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Car 3', 1000000, 1050000, images[5], users[2], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Car 3', 1000000, 1050000, images[5], users[2], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Car 4', 1100000, 1150000, images[6], users[3], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Car 4', 1100000, 1150000, images[6], users[3], 'cars', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('House 1', 2000000, 2050000, images[7], users[4], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('House 1', 2000000, 2050000, images[7], users[4], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('House 2', 3000000, 3007000, images[8], users[5], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('House 2', 3000000, 3007000, images[8], users[5], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('House 3', 1500000, 1508000, images[9], users[6], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('House 3', 1500000, 1508000, images[9], users[6], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('House 4', 1000000, 1006000, images[10], users[7], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('House 4', 1000000, 1006000, images[10], users[7], 'realestate', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Jewelry 1', 1250000, 1350000, images[11], users[8], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Jewelry 1', 1250000, 1350000, images[11], users[8], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Jewelry 2', 2000000, 2010000, images[12], users[0], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Jewelry 2', 2000000, 2010000, images[12], users[0], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Jewelry 3', 3000000, 3020000, images[13], users[1], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Jewelry 3', 3000000, 3020000, images[13], users[1], 'goldreserves', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "04/12/2020", callback);
     },
     function (callback) {
-      productCreate('Painting 1', 150000, 156000, images[14], users[2], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Painting 1', 150000, 156000, images[14], users[2], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "10/14/2020", callback);
     },
     function (callback) {
-      productCreate('Painting 2', 200000, 200500, images[15], users[3], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Painting 2', 200000, 200500, images[15], users[3], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "10/20/2019", callback);
     },
     function (callback) {
-      productCreate('Painting 3', 400000, 400900, images[16], users[4], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Painting 3', 400000, 400900, images[16], users[4], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "11/12/2020", callback);
     },
     function (callback) {
-      productCreate('Painting 4', 350000, 353000, images[17], users[5], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' , callback);
+      productCreate('Painting 4', 350000, 353000, images[17], users[5], 'paintings', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eum eos sint aliquam adipisci consequuntur aspernatur error ipsum saepe laboriosam blanditiis, sed repudiandae perspiciatis doloremque repellendus a? Fugiat, voluptates eaque.' ,"04/12/2019", "12/20/2020", callback);
     },
   ],
     // optional callback
