@@ -12,7 +12,9 @@ var ProductSchema = new Schema(
         images: {type: Schema.Types.ObjectId, ref: 'Image'},
         detail: {type: String, required: true},
         owner: {type: Schema.ObjectId, ref: 'User', required: true},
-        reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}]
+        reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}],
+        start_date: {type: Date, required: true, default: new Date()},
+        end_date: {type: Date, required: true}
     }
 );
 

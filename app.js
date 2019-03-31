@@ -28,7 +28,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// uncomment krna h favicon ko public directory me dalne k baad
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(helmet());
 app.use(logger('dev'));
@@ -36,7 +35,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret: "qmwnebrvtcyxzuiaospdlfkgjhpzoxicuvybtnrmewqlakjshdgfq7a4z1w7s5x3e8d5c2r9f6v3t78g9by4h5n6u1j2m3"}));
+app.use(session({
+  secret: "sabbataukya",
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(compression());
 
 app.use('/product', product);
